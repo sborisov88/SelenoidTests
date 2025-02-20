@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  selenoid:
+    image: aerokube/selenoid:latest-release
+    network_mode: bridge
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "./config/:/etc/selenoid/:ro"
+    environment:
+      - OVERRIDE_VIDEO_OUTPUT_DIR=/opt/selenoid/video/
+    ports:
+      - "4444:4444"
+
+  selenoid-ui:
+    image: aerokube/selenoid-ui:latest-release
+    network_mode: bridge
+    links:
+      - selenoid
+    ports:
+      - "8080:8080"
+    command: ["--selenoid-uri", "http://localhost:4444"]
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - selenoid
+    environment:
+      - SELENOID_URL=http://localhost:4444 

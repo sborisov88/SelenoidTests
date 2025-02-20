@@ -1,0 +1,10 @@
+<Configuration status="WARN">
+    <Loggers>
+        <Logger name="org.openqa.selenium.remote.tracing.opentelemetry" level="ERROR" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration> 
